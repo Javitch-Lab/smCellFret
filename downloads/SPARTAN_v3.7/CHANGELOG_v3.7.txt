@@ -1,0 +1,75 @@
+SUMMARY: batchKinetics is the focus of this release, including implementations 
+  of two key algorithms in QuB directly in Matlab: MIL and MPL. Existing methods
+  are faster, more robust, and support new features like degenerate states and
+  basic constraints.
+
+
+GETTRACES:
+ - Save imaging profile geometry in fileMetadata. This enables later display
+     of the movie with properly separated subfields.
+
+ - New MovieViewer class for easily viewing movies from the console and
+     enabling movie display from other programs (sorttraces).
+
+ - MovieMontage menu option to play movies simulatanously while tiled side-by-side
+     for direct comparison. Particularly useful for comparing photobleaching.
+
+
+SORTTRACES:
+ - Use MovieViewer class for movie display and separate subfields
+     while highlighting current molecule location. Enables playing the movie.
+
+ - Context menus for each bin for exporting for Origin.
+
+
+HMM (batchKinetics):
+ - Baum-Welch: optimizations, code simplification, make calling conventions
+     similar to other optimizers. Implement forward-backward algorithm as a 
+     MEX function (using Eigen) that is ~10-times faster than Matlab code.
+     Obtain final rate constants from logm(A) instead of A/dt, which is much
+     more accurate. Support for degenerate states.
+
+ - MPL: maximum point likelihood parameter optimizer that optimizes rate constants
+     directly (instead of transition probabilities as in Baum-Welch), which
+     enables support for constraints, dead-time corrections, etc.
+
+ - MIL: now implemented directly in Matlab instead of calling a QuB library.
+     Unlike QuB, we use fmincon on the likelihood function with analytical
+     partial derivatives only. Includes support for constraints, dead-time
+     corrections, etc. Excludes contribution of final dwell *time* in the dark
+     state, which aids in convergence.
+
+ - Baum-Welch and ebFRET ignore excluded traces.
+
+ - ebFRET returns 'average' model rates and FRET stdev. All parameters now come
+     from the optimized prior distribution instead of averaging the posteriors.
+     No longer need to restart batchKinetics when adding ebFRET to path.
+
+     *** Add zero-FRET noise to traces so all have a defined zero state.
+         This should be a setting in future versions...
+
+ - batchKinetics: show intermediate results and waitbar updates with all methods,
+     display statehist, TD, and dwell time plots in main GUI panel.
+
+ - QubModelViewer: support for constraining rates, which are grayed out, one
+     unified dialog for changing state and class model parameters. Doubling-
+     clicking on a state brings up this dialog for easier access.
+
+ - QubModel: enable saving models as .mat format files with the .model extension.
+     This avoids the legacy baggage of the .qmf format, which is still supported.
+
+ - simulate: separate parameters for donor and acceptor bleaching and an option
+     to simulate exact times instead of exponentially distributed. Specify SNR
+     instead of background noise stdev. Restore option to return simulated
+     dwell-time series. Remove total intensity scaling when using gamma scaling.
+     Additional code cleanup.
+
+ - Various: take QubModel object as input instead of individual parameters,
+     support for degenerate states.
+
+ - statehist: use QubModel colors for consistency.
+
+
+GLOBAL:
+ - Various other bug fixes.
+
