@@ -8,7 +8,7 @@ Step 1: Download the data.zip file with the link: https://www.dropbox.com/s/ns2e
 
 Step 2: Unzip the file.
 
-Step 3: Copy the file '40msG3mW80Pd100G_06.stk' to the folder '...smCellFret\examples\microscope data'. 
+Step 3: Copy the file '40msG3mW80Pd100G_06.stk' into the folder '...smCellFret\examples\microscope data'. 
 
 Step 4: Copy the file 'grid xy.stk' into the folder '...smCellFret\examples\calibration'. 
 
